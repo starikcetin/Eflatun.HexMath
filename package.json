@@ -1,0 +1,9 @@
+{
+    "author": "starikcetin <cetinsamedtarik@gmail.com> (https://github.com/starikcetin)",
+    "dependencies": {},
+    "description": "Hexagonal grid calculations",
+    "displayName": "Eflatun.HexMath",
+    "license": "MIT",
+    "name": "com.starikcetin.eflatun.hexmath",
+    "version": "0.0.1"
+}
