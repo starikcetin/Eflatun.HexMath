@@ -30,6 +30,19 @@ namespace starikcetin.Eflatun.HexMath
             R = r;
         }
 
+        /// <summary>
+        /// Constructor for hexagonal axial coordinate system support.
+        /// </summary>
+        /// <remarks>
+        /// Since Q + R + S = 0, one of them is redundant. Here, we dropped S and derived it with (-Q-R).
+        /// </remarks>
+        public CubeCoordinates(int q, int r)
+        {
+            Q = q;
+            R = r;
+            S = -q - r;
+        }
+
         public CubeCoordinates WithQ(int newQ)
         {
             return new CubeCoordinates(newQ, S, R);
@@ -57,6 +70,31 @@ namespace starikcetin.Eflatun.HexMath
             var x = size * (3f / 2 * Q);
             var y = size * (Mathf.Sqrt(3) / 2 * Q + Mathf.Sqrt(3) * R);
             return new Vector2(x, y);
+        }
+
+        public static CubeCoordinates FromUnity(Vector2 point, float size, RoundingMethod roundingMethod)
+        {
+            var q = (2f / 3 * point.x) / size;
+            var r = (-1f / 3 * point.x + Mathf.Sqrt(3) / 3 * point.y) / size;
+
+            int qInt;
+            int rInt;
+
+            switch (roundingMethod)
+            {
+                case RoundingMethod.Ceil:
+                    qInt = Mathf.CeilToInt(q);
+                    rInt = Mathf.CeilToInt(r);
+                    break;
+                case RoundingMethod.Floor:
+                    qInt = Mathf.FloorToInt(q);
+                    rInt = Mathf.FloorToInt(r);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(roundingMethod), roundingMethod, null);
+            }
+
+            return new CubeCoordinates(qInt, rInt);
         }
 
         [ContractInvariantMethod]

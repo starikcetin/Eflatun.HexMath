@@ -42,6 +42,11 @@ namespace starikcetin.Eflatun.HexMath
             return ToCube().ToUnity(size);
         }
 
+        public static CubeCoordinates FromUnity(Vector2 point, float size, RoundingMethod roundingMethod)
+        {
+            return CubeCoordinates.FromUnity(point, size, roundingMethod);
+        }
+
         public bool Equals(OffsetCoordinates other)
         {
             return Row == other.Row && Col == other.Col;
