@@ -1,0 +1,9 @@
+{
+  "author": "starikcetin <cetinsamedtarik@gmail.com> (https://github.com/starikcetin)",
+  "description": "Hexagonal grid calculations for Unity.",
+  "displayName": "Eflatun.HexMath",
+  "license": "MIT",
+  "name": "com.eflatun.hexmath",
+  "version": "0.1.0",
+  "type": "library"
+}
