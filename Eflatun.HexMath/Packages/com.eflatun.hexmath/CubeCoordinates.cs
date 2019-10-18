@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using UnityEngine;
 
-namespace starikcetin.Eflatun.HexMath
+namespace Eflatun.HexMath
 {
     /// <summary>
     /// Representation of hexagons on the hexagonal cube coordinate system.

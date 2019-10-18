@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace starikcetin.Eflatun.HexMath
+namespace Eflatun.HexMath
 {
     /// <summary>
     /// Representation of hexagons on the hexagonal odd-q offset coordinate system.
