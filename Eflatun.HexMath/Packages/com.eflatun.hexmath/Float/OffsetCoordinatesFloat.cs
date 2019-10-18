@@ -1,4 +1,5 @@
 using System;
+using Eflatun.HexMath.Integer;
 using UnityEngine;
 
 namespace Eflatun.HexMath.Float
@@ -8,7 +9,7 @@ namespace Eflatun.HexMath.Float
     /// Odd-Q: Odd columns are offset.
     /// Flat-Top.
     /// </summary>
-    public struct OffsetCoordinatesFloat : IEquatable<OffsetCoordinatesFloat>
+    public struct OffsetCoordinatesFloat : IEquatable<OffsetCoordinatesFloat>, IEquatable<OffsetCoordinatesInt>
     {
         public float Row { get; }
         public float Col { get; }
@@ -17,6 +18,12 @@ namespace Eflatun.HexMath.Float
         {
             Row = row;
             Col = col;
+        }
+
+        public OffsetCoordinatesFloat(OffsetCoordinatesInt offsetCoordinatesInt)
+        {
+            Row = offsetCoordinatesInt.Row;
+            Col = offsetCoordinatesInt.Col;
         }
 
         public OffsetCoordinatesFloat WithRow(float newRow)
@@ -54,7 +61,8 @@ namespace Eflatun.HexMath.Float
 
         public override bool Equals(object obj)
         {
-            return obj is OffsetCoordinatesFloat other && Equals(other);
+            return obj is OffsetCoordinatesFloat otherFloat && Equals(otherFloat)
+                || obj is OffsetCoordinatesInt otherInt && Equals(otherInt);
         }
 
         public override int GetHashCode()
@@ -73,6 +81,26 @@ namespace Eflatun.HexMath.Float
         public static bool operator !=(OffsetCoordinatesFloat left, OffsetCoordinatesFloat right)
         {
             return !left.Equals(right);
+        }
+
+        public bool Equals(OffsetCoordinatesInt other)
+        {
+            return Math.Abs(Row - other.Row) <= float.Epsilon && Math.Abs(Col - other.Col) <= float.Epsilon;
+        }
+
+        public static bool operator ==(OffsetCoordinatesFloat left, OffsetCoordinatesInt right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(OffsetCoordinatesFloat left, OffsetCoordinatesInt right)
+        {
+            return !left.Equals(right);
+        }
+
+        public OffsetCoordinatesInt ToInt(RoundingMethod roundingMethod)
+        {
+            return new OffsetCoordinatesInt(this, roundingMethod);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
+using Eflatun.HexMath.Float;
 using UnityEngine;
 
 namespace Eflatun.HexMath.Integer
@@ -17,7 +18,7 @@ namespace Eflatun.HexMath.Integer
     /// These are not regular XYZ, these are the XYZ in hexagonal cube coordinate system.
     /// That is why using QSR is a better idea in order to distinguish them.
     /// </remarks>
-    public struct CubeCoordinatesInt : IEquatable<CubeCoordinatesInt>
+    public struct CubeCoordinatesInt : IEquatable<CubeCoordinatesInt>, IEquatable<CubeCoordinatesFloat>
     {
         public readonly int Q;
         public readonly int S;
@@ -41,6 +42,30 @@ namespace Eflatun.HexMath.Integer
             Q = q;
             R = r;
             S = -q - r;
+        }
+
+        public CubeCoordinatesInt(CubeCoordinatesFloat cubeCoordinatesFloat, RoundingMethod roundingMethod)
+        {
+            int qInt;
+            int rInt;
+
+            switch (roundingMethod)
+            {
+                case RoundingMethod.Ceil:
+                    qInt = Mathf.CeilToInt(cubeCoordinatesFloat.Q);
+                    rInt = Mathf.CeilToInt(cubeCoordinatesFloat.R);
+                    break;
+                case RoundingMethod.Floor:
+                    qInt = Mathf.FloorToInt(cubeCoordinatesFloat.Q);
+                    rInt = Mathf.FloorToInt(cubeCoordinatesFloat.R);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(roundingMethod), roundingMethod, null);
+            }
+
+            Q = qInt;
+            R = rInt;
+            S = -qInt - rInt;
         }
 
         public CubeCoordinatesInt WithQ(int newQ)
@@ -110,7 +135,8 @@ namespace Eflatun.HexMath.Integer
 
         public override bool Equals(object obj)
         {
-            return obj is CubeCoordinatesInt other && Equals(other);
+            return obj is CubeCoordinatesInt otherInt && Equals(otherInt)
+                || obj is CubeCoordinatesFloat otherFloat && Equals(otherFloat);
         }
 
         public override int GetHashCode()
@@ -132,6 +158,28 @@ namespace Eflatun.HexMath.Integer
         public static bool operator !=(CubeCoordinatesInt left, CubeCoordinatesInt right)
         {
             return !left.Equals(right);
+        }
+
+        public bool Equals(CubeCoordinatesFloat other)
+        {
+            return Math.Abs(Q - other.Q) <= float.Epsilon
+                   && Math.Abs(S - other.S) <= float.Epsilon
+                   && Math.Abs(R - other.R) <= float.Epsilon;
+        }
+
+        public static bool operator ==(CubeCoordinatesInt left, CubeCoordinatesFloat right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(CubeCoordinatesInt left, CubeCoordinatesFloat right)
+        {
+            return !left.Equals(right);
+        }
+
+        public CubeCoordinatesFloat ToFloat()
+        {
+            return new CubeCoordinatesFloat(this);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Eflatun.HexMath.Float;
 using UnityEngine;
 
 namespace Eflatun.HexMath.Integer
@@ -8,7 +9,7 @@ namespace Eflatun.HexMath.Integer
     /// Odd-Q: Odd columns are offset.
     /// Flat-Top.
     /// </summary>
-    public struct OffsetCoordinatesInt : IEquatable<OffsetCoordinatesInt>
+    public struct OffsetCoordinatesInt : IEquatable<OffsetCoordinatesInt>, IEquatable<OffsetCoordinatesFloat>
     {
         public int Row { get; }
         public int Col { get; }
@@ -17,6 +18,11 @@ namespace Eflatun.HexMath.Integer
         {
             Row = row;
             Col = col;
+        }
+
+        public OffsetCoordinatesInt(OffsetCoordinatesFloat offsetCoordinatesFloat, RoundingMethod roundingMethod)
+        {
+            this = offsetCoordinatesFloat.ToCube().ToInt(roundingMethod).ToOffset();
         }
 
         public OffsetCoordinatesInt WithRow(int newRow)
@@ -54,7 +60,8 @@ namespace Eflatun.HexMath.Integer
 
         public override bool Equals(object obj)
         {
-            return obj is OffsetCoordinatesInt other && Equals(other);
+            return obj is OffsetCoordinatesInt otherInt && Equals(otherInt)
+                || obj is OffsetCoordinatesFloat otherFloat && Equals(otherFloat);
         }
 
         public override int GetHashCode()
@@ -73,6 +80,27 @@ namespace Eflatun.HexMath.Integer
         public static bool operator !=(OffsetCoordinatesInt left, OffsetCoordinatesInt right)
         {
             return !left.Equals(right);
+        }
+
+        public bool Equals(OffsetCoordinatesFloat other)
+        {
+            return Math.Abs(Row - other.Row) <= float.Epsilon
+                   && Math.Abs(Col - other.Col) <= float.Epsilon;
+        }
+
+        public static bool operator ==(OffsetCoordinatesInt left, OffsetCoordinatesFloat right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(OffsetCoordinatesInt left, OffsetCoordinatesFloat right)
+        {
+            return !left.Equals(right);
+        }
+
+        public OffsetCoordinatesFloat ToFloat()
+        {
+            return new OffsetCoordinatesFloat(this);
         }
     }
 }
