@@ -107,5 +107,10 @@ namespace Eflatun.HexMath.Integer
         {
             return new OffsetCoordinatesFloat(this);
         }
+
+        public static implicit operator OffsetCoordinatesFloat(OffsetCoordinatesInt offsetCoordinatesInt)
+        {
+            return new OffsetCoordinatesFloat(offsetCoordinatesInt);
+        }
     }
 }
