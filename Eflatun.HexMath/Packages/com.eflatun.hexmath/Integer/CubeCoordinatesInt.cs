@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using UnityEngine;
 
-namespace Eflatun.HexMath
+namespace Eflatun.HexMath.Integer
 {
     /// <summary>
     /// Representation of hexagons on the hexagonal cube coordinate system.
@@ -17,13 +17,13 @@ namespace Eflatun.HexMath
     /// These are not regular XYZ, these are the XYZ in hexagonal cube coordinate system.
     /// That is why using QSR is a better idea in order to distinguish them.
     /// </remarks>
-    public struct CubeCoordinates : IEquatable<CubeCoordinates>
+    public struct CubeCoordinatesInt : IEquatable<CubeCoordinatesInt>
     {
         public readonly int Q;
         public readonly int S;
         public readonly int R;
 
-        public CubeCoordinates(int q, int s, int r)
+        public CubeCoordinatesInt(int q, int s, int r)
         {
             Q = q;
             S = s;
@@ -36,33 +36,33 @@ namespace Eflatun.HexMath
         /// <remarks>
         /// Since Q + R + S = 0, one of them is redundant. Here, we dropped S and derived it with (-Q-R).
         /// </remarks>
-        public CubeCoordinates(int q, int r)
+        public CubeCoordinatesInt(int q, int r)
         {
             Q = q;
             R = r;
             S = -q - r;
         }
 
-        public CubeCoordinates WithQ(int newQ)
+        public CubeCoordinatesInt WithQ(int newQ)
         {
-            return new CubeCoordinates(newQ, S, R);
+            return new CubeCoordinatesInt(newQ, S, R);
         }
 
-        public CubeCoordinates WithS(int newS)
+        public CubeCoordinatesInt WithS(int newS)
         {
-            return new CubeCoordinates(Q, newS, R);
+            return new CubeCoordinatesInt(Q, newS, R);
         }
 
-        public CubeCoordinates WithR(int newR)
+        public CubeCoordinatesInt WithR(int newR)
         {
-            return new CubeCoordinates(Q, S, newR);
+            return new CubeCoordinatesInt(Q, S, newR);
         }
 
-        public OffsetCoordinates ToOffset()
+        public OffsetCoordinatesInt ToOffset()
         {
             var col = Q;
             var row = R + (Q - (Q & 1)) / 2;
-            return new OffsetCoordinates(col, row);
+            return new OffsetCoordinatesInt(col, row);
         }
 
         public Vector2 ToUnity(float size)
@@ -72,7 +72,7 @@ namespace Eflatun.HexMath
             return new Vector2(x, y);
         }
 
-        public static CubeCoordinates FromUnity(Vector2 point, float size, RoundingMethod roundingMethod)
+        public static CubeCoordinatesInt FromUnity(Vector2 point, float size, RoundingMethod roundingMethod)
         {
             var q = (2f / 3 * point.x) / size;
             var r = (-1f / 3 * point.x + Mathf.Sqrt(3) / 3 * point.y) / size;
@@ -94,7 +94,7 @@ namespace Eflatun.HexMath
                     throw new ArgumentOutOfRangeException(nameof(roundingMethod), roundingMethod, null);
             }
 
-            return new CubeCoordinates(qInt, rInt);
+            return new CubeCoordinatesInt(qInt, rInt);
         }
 
         [ContractInvariantMethod]
@@ -103,14 +103,14 @@ namespace Eflatun.HexMath
             Contract.Assert(Q + S + R == 0);
         }
 
-        public bool Equals(CubeCoordinates other)
+        public bool Equals(CubeCoordinatesInt other)
         {
             return Q == other.Q && S == other.S && R == other.R;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is CubeCoordinates other && Equals(other);
+            return obj is CubeCoordinatesInt other && Equals(other);
         }
 
         public override int GetHashCode()
@@ -124,12 +124,12 @@ namespace Eflatun.HexMath
             }
         }
 
-        public static bool operator ==(CubeCoordinates left, CubeCoordinates right)
+        public static bool operator ==(CubeCoordinatesInt left, CubeCoordinatesInt right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(CubeCoordinates left, CubeCoordinates right)
+        public static bool operator !=(CubeCoordinatesInt left, CubeCoordinatesInt right)
         {
             return !left.Equals(right);
         }

@@ -1,40 +1,40 @@
 using System;
 using UnityEngine;
 
-namespace Eflatun.HexMath
+namespace Eflatun.HexMath.Integer
 {
     /// <summary>
     /// Representation of hexagons on the hexagonal odd-q offset coordinate system.
     /// Odd-Q: Odd columns are offset.
     /// Flat-Top.
     /// </summary>
-    public struct OffsetCoordinates : IEquatable<OffsetCoordinates>
+    public struct OffsetCoordinatesInt : IEquatable<OffsetCoordinatesInt>
     {
         public int Row { get; }
         public int Col { get; }
 
-        public OffsetCoordinates(int col, int row)
+        public OffsetCoordinatesInt(int col, int row)
         {
             Row = row;
             Col = col;
         }
 
-        public OffsetCoordinates WithRow(int newRow)
+        public OffsetCoordinatesInt WithRow(int newRow)
         {
-            return new OffsetCoordinates(Col, newRow);
+            return new OffsetCoordinatesInt(Col, newRow);
         }
 
-        public OffsetCoordinates WithCol(int newCol)
+        public OffsetCoordinatesInt WithCol(int newCol)
         {
-            return new OffsetCoordinates(newCol, Row);
+            return new OffsetCoordinatesInt(newCol, Row);
         }
 
-        public CubeCoordinates ToCube()
+        public CubeCoordinatesInt ToCube()
         {
             var q = Col;
             var r = Row - (Col + (Col & 1)) / 2;
             var s = -q - r;
-            return new CubeCoordinates(q, s, r);
+            return new CubeCoordinatesInt(q, s, r);
         }
 
         public Vector2 ToUnity(float size)
@@ -42,19 +42,19 @@ namespace Eflatun.HexMath
             return ToCube().ToUnity(size);
         }
 
-        public static OffsetCoordinates FromUnity(Vector2 point, float size, RoundingMethod roundingMethod)
+        public static OffsetCoordinatesInt FromUnity(Vector2 point, float size, RoundingMethod roundingMethod)
         {
-            return CubeCoordinates.FromUnity(point, size, roundingMethod).ToOffset();
+            return CubeCoordinatesInt.FromUnity(point, size, roundingMethod).ToOffset();
         }
 
-        public bool Equals(OffsetCoordinates other)
+        public bool Equals(OffsetCoordinatesInt other)
         {
             return Row == other.Row && Col == other.Col;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is OffsetCoordinates other && Equals(other);
+            return obj is OffsetCoordinatesInt other && Equals(other);
         }
 
         public override int GetHashCode()
@@ -65,12 +65,12 @@ namespace Eflatun.HexMath
             }
         }
 
-        public static bool operator ==(OffsetCoordinates left, OffsetCoordinates right)
+        public static bool operator ==(OffsetCoordinatesInt left, OffsetCoordinatesInt right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(OffsetCoordinates left, OffsetCoordinates right)
+        public static bool operator !=(OffsetCoordinatesInt left, OffsetCoordinatesInt right)
         {
             return !left.Equals(right);
         }
