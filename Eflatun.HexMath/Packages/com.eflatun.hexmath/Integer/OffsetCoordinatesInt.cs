@@ -20,6 +20,11 @@ namespace Eflatun.HexMath.Integer
             Col = col;
         }
 
+        public OffsetCoordinatesInt(OffsetCoordinatesInt other)
+        {
+            this = other;
+        }
+
         public OffsetCoordinatesInt(OffsetCoordinatesFloat offsetCoordinatesFloat, RoundingMethod roundingMethod)
         {
             this = offsetCoordinatesFloat.ToCube().ToInt(roundingMethod).ToOffset();

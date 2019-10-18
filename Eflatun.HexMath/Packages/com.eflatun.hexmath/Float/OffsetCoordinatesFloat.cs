@@ -20,6 +20,11 @@ namespace Eflatun.HexMath.Float
             Col = col;
         }
 
+        public OffsetCoordinatesFloat(OffsetCoordinatesFloat other)
+        {
+            this = other;
+        }
+
         public OffsetCoordinatesFloat(OffsetCoordinatesInt offsetCoordinatesInt)
         {
             Row = offsetCoordinatesInt.Row;

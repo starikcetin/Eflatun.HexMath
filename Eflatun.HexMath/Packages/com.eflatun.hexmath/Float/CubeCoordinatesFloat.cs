@@ -44,6 +44,11 @@ namespace Eflatun.HexMath.Float
             S = -q - r;
         }
 
+        public CubeCoordinatesFloat(CubeCoordinatesFloat other)
+        {
+            this = other;
+        }
+
         public CubeCoordinatesFloat(CubeCoordinatesInt cubeCoordinatesInt)
         {
             Q = cubeCoordinatesInt.Q;
