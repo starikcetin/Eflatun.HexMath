@@ -133,7 +133,9 @@ namespace Eflatun.HexMath.Float
         
         public bool Equals(CubeCoordinatesInt other)
         {
-            return Math.Abs(Q - other.Q) <= float.Epsilon && Math.Abs(S - other.S) <= float.Epsilon && Math.Abs(R - other.R) <= float.Epsilon;
+            return Mathf.Approximately(Q, other.Q)
+                   && Mathf.Approximately(S, other.S)
+                   && Mathf.Approximately(R, other.R);
         }
 
         public static bool operator ==(CubeCoordinatesFloat left, CubeCoordinatesInt right)

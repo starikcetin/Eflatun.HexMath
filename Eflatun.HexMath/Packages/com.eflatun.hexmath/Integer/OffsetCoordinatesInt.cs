@@ -89,8 +89,8 @@ namespace Eflatun.HexMath.Integer
 
         public bool Equals(OffsetCoordinatesFloat other)
         {
-            return Math.Abs(Row - other.Row) <= float.Epsilon
-                   && Math.Abs(Col - other.Col) <= float.Epsilon;
+            return Mathf.Approximately(Row, other.Row)
+                   && Mathf.Approximately(Col, other.Col);
         }
 
         public static bool operator ==(OffsetCoordinatesInt left, OffsetCoordinatesFloat right)

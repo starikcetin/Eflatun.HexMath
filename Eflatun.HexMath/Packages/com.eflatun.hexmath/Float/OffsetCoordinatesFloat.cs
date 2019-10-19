@@ -90,7 +90,8 @@ namespace Eflatun.HexMath.Float
 
         public bool Equals(OffsetCoordinatesInt other)
         {
-            return Math.Abs(Row - other.Row) <= float.Epsilon && Math.Abs(Col - other.Col) <= float.Epsilon;
+            return Mathf.Approximately(Row, other.Row)
+                   && Mathf.Approximately(Col, other.Col);
         }
 
         public static bool operator ==(OffsetCoordinatesFloat left, OffsetCoordinatesInt right)
