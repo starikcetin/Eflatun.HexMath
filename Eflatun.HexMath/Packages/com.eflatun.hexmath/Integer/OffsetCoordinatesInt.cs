@@ -112,5 +112,10 @@ namespace Eflatun.HexMath.Integer
         {
             return new OffsetCoordinatesFloat(offsetCoordinatesInt);
         }
+
+        public static implicit operator CubeCoordinatesInt(OffsetCoordinatesInt offsetCoordinatesInt)
+        {
+            return offsetCoordinatesInt.ToCube();
+        }
     }
 }

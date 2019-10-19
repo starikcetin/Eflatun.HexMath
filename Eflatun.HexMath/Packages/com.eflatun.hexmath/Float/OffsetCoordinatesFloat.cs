@@ -107,5 +107,10 @@ namespace Eflatun.HexMath.Float
         {
             return new OffsetCoordinatesInt(this, roundingMethod);
         }
+
+        public static implicit operator CubeCoordinatesFloat(OffsetCoordinatesFloat offsetCoordinatesFloat)
+        {
+            return offsetCoordinatesFloat.ToCube();
+        }
     }
 }
