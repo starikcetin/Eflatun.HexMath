@@ -1,4 +1,4 @@
-namespace starikcetin.Eflatun.HexMath
+namespace Eflatun.HexMath.Integer
 {
     public enum RoundingMethod
     {
